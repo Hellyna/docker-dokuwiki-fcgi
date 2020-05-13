@@ -16,7 +16,7 @@ docker run -it -name dokuwiki-fcgi --rm \
   --publish 127.0.0.1:9000 # To be used by nginx \
   --volume /srv/docker/dokuwiki/conf:/srv/chroot/dokuwiki/etc/dokuwiki \
   --volume /srv/docker/dokuwiki/data:/srv/chroot/dokuwiki/var/lib/dokuwiki \
-  hellyna/dokuwiki-fcgi setup
+  quiexotic/dokuwiki-fcgi setup
 ```
 
 After installation is done, run in production:
@@ -25,7 +25,7 @@ docker run -it -name dokuwiki-fcgi --rm \
   --publish 127.0.0.1:9000 # To be used by nginx \
   --volume /srv/docker/dokuwiki/conf:/srv/chroot/dokuwiki/etc/dokuwiki \
   --volume /srv/docker/dokuwiki/data:/srv/chroot/dokuwiki/var/lib/dokuwiki \
-  hellyna/dokuwiki-fcgi production
+  quiexotic/dokuwiki-fcgi production
 ```
 
 You can drop in your own config/data files in those volumes, for existing installation. The dokuwiki core files themselves will change with update.
