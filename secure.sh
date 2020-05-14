@@ -1,4 +1,4 @@
-cd /srv/chroot/dokuwiki/etc/dokuwiki
+cd /etc/dokuwiki
 chown -R root:root .
 chown dokuwiki:dokuwiki \
   acl.auth.php \
@@ -6,6 +6,6 @@ chown dokuwiki:dokuwiki \
   plugins.local.php plugins.local.php.bak \
   users.auth.php
 
-cd /srv/chroot/dokuwiki/var/lib/dokuwiki
+cd /var/lib/dokuwiki
 chown -R dokuwiki:dokuwiki .
 

@@ -4,13 +4,16 @@ sh secure.sh
 
 case $1 in
   setup)
-    chown dokuwiki:dokuwiki /srv/chroot/dokuwiki/etc/dokuwiki
-    cd /srv/chroot/dokuwiki/srv/www/dokuwiki
-    ln -sf ../../../var/lib/dokuwiki data
-    ln -sf ../../../etc/dokuwiki conf
+    chown dokuwiki:dokuwiki /etc/dokuwiki
+    cd /srv/www/dokuwiki
+    mv /root/phpinfo.php /srv/www/dokuwiki/phpinfo.php
+    ln -sf /var/lib/dokuwiki data
+    ln -sf /etc/dokuwiki conf
     ;;
   production)
-    mv /root/preload.php /srv/chroot/dokuwiki/srv/www/dokuwiki/inc/preload.php
+    mv /root/preload.php /srv/www/dokuwiki/inc/preload.php
+    rm -f /srv/www/dokuwiki/install.php
+    rm -f /srv/www/dokuwiki/phpinfo.php
     ;;
 esac
 
