@@ -10,7 +10,8 @@ RUN apk update && \
     php7-opcache \
     php7-openssl \
     php7-session \
-    php7-xml
+    php7-xml && \
+  rm -rf /var/cache/apk/*
 
 RUN addgroup -S dokuwiki && \
   mkdir -p /var/lib && \
