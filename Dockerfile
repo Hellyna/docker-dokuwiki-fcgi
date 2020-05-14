@@ -15,9 +15,7 @@ RUN apk update && \
 
 RUN addgroup -S dokuwiki && \
   mkdir -p /var/lib && \
-  adduser -S -G dokuwiki -h /var/lib/dokuwiki -s /sbin/nologin dokuwiki && \
-  touch /var/log/php7/dokuwiki.error.log && \
-  chown dokuwiki:dokuwiki /var/log/php7/dokuwiki.error.log
+  adduser -S -G dokuwiki -h /var/lib/dokuwiki -s /sbin/nologin dokuwiki
 
 ADD secure.sh /root/secure.sh
 
@@ -50,7 +48,7 @@ RUN mv /etc/php7/php-fpm.d/www.conf /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[max_execution_time] = 30' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[max_input_time] = 60' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[max_input_vars] = 10000' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
-  echo 'php_admin_value[error_log] = /var/log/php7/dokuwiki.error.log' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
+  echo 'php_admin_value[error_log] = /dev/stderr' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_flag[log_errors] = yes' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[memory_limit] = 32M' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[error_reporting] = E_ALL & ~E_NOTICE' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
