@@ -1,6 +1,6 @@
 # docker-dokuwiki-fcgi
 
-A alpine based, pure php-fpm docker image for dokuwiki with maximum security:
+A alpine based, pure php-fpm docker image for dokuwiki:
 
 + php-fpm chroot enabled
 + location of conf: `/srv/chroot/dokuwiki/etc/dokuwiki`
