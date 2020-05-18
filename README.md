@@ -3,8 +3,9 @@
 A alpine based, pure php-fpm docker image for dokuwiki:
 
 + php-fpm chroot enabled
-+ location of conf: `/srv/chroot/dokuwiki/etc/dokuwiki`
-+ location of data: `/srv/chroot/dokuwiki/var/lib/dokuwiki`
++ location of conf: `/etc/dokuwiki`
++ location of data: `/var/lib/dokuwiki`
++ location of plugins: `/srv/www/dokuwiki/lib/plugins`
 
 This docker image does not include nginx, please bring your own.
 
@@ -14,8 +15,9 @@ Run in installation mode:
 ```sh
 docker run -it -name dokuwiki-fcgi --rm \
   --publish 127.0.0.1:9000 # To be used by nginx \
-  --volume /srv/docker/dokuwiki/conf:/srv/chroot/dokuwiki/etc/dokuwiki \
-  --volume /srv/docker/dokuwiki/data:/srv/chroot/dokuwiki/var/lib/dokuwiki \
+  --volume dokuwiki-conf:/etc/dokuwiki \
+  --volume dokuwiki-data:/var/lib/dokuwiki \
+  --volume dokuwiki-plugin:/srv/www/dokuwiki/lib/plugins \
   quiexotic/dokuwiki-fcgi setup
 ```
 
@@ -23,8 +25,9 @@ After installation is done, run in production:
 ```sh
 docker run -it -name dokuwiki-fcgi --rm \
   --publish 127.0.0.1:9000 # To be used by nginx \
-  --volume /srv/docker/dokuwiki/conf:/srv/chroot/dokuwiki/etc/dokuwiki \
-  --volume /srv/docker/dokuwiki/data:/srv/chroot/dokuwiki/var/lib/dokuwiki \
+  --volume dokuwiki-conf:/etc/dokuwiki \
+  --volume dokuwiki-data:/var/lib/dokuwiki \
+  --volume dokuwiki-plugin:/srv/www/dokuwiki/lib/plugins \
   quiexotic/dokuwiki-fcgi production
 ```
 
