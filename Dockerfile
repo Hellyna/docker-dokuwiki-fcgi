@@ -67,5 +67,6 @@ RUN mv /etc/php7/php-fpm.d/www.conf /etc/php7/php-fpm.d/dokuwiki.conf && \
 
 VOLUME /var/lib/dokuwiki
 VOLUME /etc/dokuwiki
+VOLUME /srv/www/dokuwiki/lib/plugins
 EXPOSE 9000
 ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
