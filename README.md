@@ -2,7 +2,6 @@
 
 A alpine based, pure php-fpm docker image for dokuwiki:
 
-+ php-fpm chroot enabled
 + location of conf: `/etc/dokuwiki`
 + location of data: `/var/lib/dokuwiki`
 + location of plugins: `/srv/www/dokuwiki/lib/plugins`
