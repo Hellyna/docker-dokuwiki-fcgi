@@ -8,4 +8,4 @@ chown dokuwiki:dokuwiki \
 
 cd /var/lib/dokuwiki
 chown -R dokuwiki:dokuwiki .
-
+chown -R dokuwiki:dokuwiki /srv/www/dokuwiki/lib/plugins
