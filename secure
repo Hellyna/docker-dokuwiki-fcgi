@@ -6,10 +6,22 @@ test -d /etc/dokuwiki/tpl && chown -R dokuwiki:dokuwiki tpl
 chown dokuwiki:dokuwiki \
   . \
   acl.auth.php \
+  acronyms.local.conf \
+  entities.local.conf \
   interwiki.local.conf \
-  local.php local.php.bak.php \
-  plugins.local.php plugins.local.php.bak \
-  users.auth.php
+  license.local.php \
+  manifest.local.json \
+  mediameta.local.php \
+  mime.local.conf \
+  scheme.local.conf \
+  smileys.local.conf \
+  local.php local.protected.php local.php.bak.php \
+  plugins.local.php plugins.protected.php plugins.local.php.bak \
+  users.auth.php \
+  userscript.js \
+  userstyle.css \
+  wordblock.local.conf
+
 
 cd /var/lib/dokuwiki
 chmod 750 .
