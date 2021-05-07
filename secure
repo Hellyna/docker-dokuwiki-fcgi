@@ -1,0 +1,20 @@
+#!/bin/sh
+
+cd /etc/dokuwiki
+chown -R root:root .
+test -d /etc/dokuwiki/tpl && chown -R dokuwiki:dokuwiki tpl
+chown dokuwiki:dokuwiki \
+  . \
+  acl.auth.php \
+  interwiki.local.conf \
+  local.php local.php.bak.php \
+  plugins.local.php plugins.local.php.bak \
+  users.auth.php
+
+cd /var/lib/dokuwiki
+chmod 750 .
+chown -R dokuwiki:dokuwiki .
+
+cd /var/log/dokuwiki
+chmod 750 .
+chown -R dokuwiki:dokuwiki .

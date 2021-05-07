@@ -1,0 +1,25 @@
+#!/bin/sh
+
+test $# -ne 1 && exit 1
+
+secure
+
+case $1 in
+  setup)
+    chown dokuwiki:dokuwiki /etc/dokuwiki
+    cd /srv/www/dokuwiki
+    mv /root/phpinfo.php /srv/www/dokuwiki/phpinfo.php
+    ln -sf /var/lib/dokuwiki/data data
+    ln -sf /etc/dokuwiki conf
+    ;;
+  production)
+    test -e /root/preload.php && mv /root/preload.php /srv/www/dokuwiki/inc/preload.php
+    # TODO: sed data dir
+    rm -f /srv/www/dokuwiki/conf
+    rm -f /srv/www/dokuwiki/data
+    rm -f /srv/www/dokuwiki/install.php
+    rm -f /srv/www/dokuwiki/phpinfo.php
+    ;;
+esac
+
+exec /usr/sbin/php-fpm7 --nodaemonize
