@@ -4,20 +4,26 @@ WORKDIR /root
 
 RUN apk update && \
   apk add \
+    freetype \
+    gd \
+    libpng \
     php7-fpm \
     php7-gd \
     php7-json \
     php7-opcache \
     php7-openssl \
     php7-session \
-    php7-xml && \
+    php7-simplexml \
+    php7-tokenizer \
+    php7-xml \
+    php7-xmlreader && \
   rm -rf /var/cache/apk/*
 
 RUN addgroup -S dokuwiki && \
   mkdir -p /var/lib && \
   adduser -S -G dokuwiki -h /var/lib/dokuwiki -s /sbin/nologin dokuwiki
 
-ADD secure.sh /root/secure.sh
+ADD secure /usr/local/bin/secure
 
 RUN wget https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz -O dokuwiki.tar.gz && \
   mkdir -p /srv/www/dokuwiki && \
@@ -26,13 +32,27 @@ RUN wget https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz -O dokuw
   rm /root/dokuwiki.tar.gz && \
   chown -R root:root /srv/www/dokuwiki && \
   mv /srv/www/dokuwiki/conf /etc/dokuwiki && \
-  mv /srv/www/dokuwiki/data/.htaccess /srv/www/dokuwiki/data/* /var/lib/dokuwiki && \
+  mkdir -p /var/lib/dokuwiki/data && \
+  mv /srv/www/dokuwiki/data/.htaccess /srv/www/dokuwiki/data/* /var/lib/dokuwiki/data && \
   rmdir /srv/www/dokuwiki/data && \
-  sh /root/secure.sh
+  mkdir -p /var/lib/dokuwiki/plugins && \
+  mv /srv/www/dokuwiki/lib/plugins/* /var/lib/dokuwiki/plugins && \
+  rmdir /srv/www/dokuwiki/lib/plugins && \
+  ln -sf /var/lib/dokuwiki/plugins /srv/www/dokuwiki/lib/plugins && \
+  mkdir -p /var/lib/dokuwiki/templates && \
+  mv /srv/www/dokuwiki/lib/tpl/* /var/lib/dokuwiki/templates && \
+  rmdir /srv/www/dokuwiki/lib/tpl && \
+  ln -sf /var/lib/dokuwiki/templates /srv/www/dokuwiki/lib/tpl && \
+  mkdir -p /var/lib/dokuwiki/images && \
+  mv /srv/www/dokuwiki/lib/images/* /var/lib/dokuwiki/images && \
+  rmdir /srv/www/dokuwiki/lib/images && \
+  ln -sf /var/lib/dokuwiki/images /srv/www/dokuwiki/lib/images && \
+  mkdir -p /var/log/dokuwiki && \
+  secure
 
 ADD preload.php /root/preload.php
 ADD phpinfo.php /root/phpinfo.php
-ADD entrypoint.sh /root/entrypoint.sh
+ADD entrypoint /usr/local/bin/entrypoint
 
 RUN mv /etc/php7/php-fpm.d/www.conf /etc/php7/php-fpm.d/dokuwiki.conf && \
   sed -ir 's/^\[www\].*$/[dokuwiki]/g' /etc/php7/php-fpm.d/dokuwiki.conf && \
@@ -48,7 +68,7 @@ RUN mv /etc/php7/php-fpm.d/www.conf /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[max_execution_time] = 30' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[max_input_time] = 60' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[max_input_vars] = 10000' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
-  echo 'php_admin_value[error_log] = /dev/stderr' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
+  echo 'php_admin_value[error_log] = /var/log/dokuwiki/error.log' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_flag[log_errors] = yes' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[memory_limit] = 32M' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[error_reporting] = E_ALL & ~E_NOTICE' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
@@ -63,10 +83,7 @@ RUN mv /etc/php7/php-fpm.d/www.conf /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_value[session.use_cookies] = 1' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_flag[register_globals] = off' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
   echo 'php_admin_flag[opcache.validate_root] = on' >> /etc/php7/php-fpm.d/dokuwiki.conf && \
-  echo 'php_admin_value[open_basedir] = /srv/www/dokuwiki:/var/lib/dokuwiki:/etc/dokuwiki:/tmp' >> /etc/php7/php-fpm.d/dokuwiki.conf
+  echo 'php_admin_value[open_basedir] = /srv/www/dokuwiki:/var/lib/dokuwiki/data:/var/lib/dokuwiki/images:/var/lib/dokuwiki/plugins:/var/lib/dokuwiki/templates:/etc/dokuwiki:/tmp' >> /etc/php7/php-fpm.d/dokuwiki.conf
 
-VOLUME /var/lib/dokuwiki
-VOLUME /etc/dokuwiki
-VOLUME /srv/www/dokuwiki/lib/plugins
 EXPOSE 9000
-ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
+ENTRYPOINT ["entrypoint"]
