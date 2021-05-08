@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+export DOCKER_BUILDKIT=1
+IMAGE=quiexotic/dokuwiki-fcgi
+
+docker build --pull -t "$IMAGE" .
+docker push "$IMAGE"
