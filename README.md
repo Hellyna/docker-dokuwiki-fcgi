@@ -47,4 +47,6 @@ You can drop in your own config/data files in those volumes, for existing instal
 
 Refrain from using directives that will check the host OS for files before sending it to the fcgi socket, such as `try_files` or `if ( -f`. Doing so will result in a shortcircuit since the host file in question obviously does not exist on the host, and hence will yield a 404.
 
+## TODO
 
+Generate (php-fpm) config file on the fly based on environmental variables.
