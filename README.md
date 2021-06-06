@@ -16,7 +16,7 @@ Please see [docker-compose.yml](https://github.com/Hellyna/docker-dokuwiki-fcgi/
 
 ## Update
 
-To update, you will need to delete, and recreate the `dokuwiki-www` volume after pulling this image. The reason is because that `dokuwiki-www` is meant to be a ephemeral volume but it is persisted because it is shared with [quiexotic/dokuwiki-nginx](https://github.com/quiexotic/docker-dokuwiki-nginx).
+To update, you will need to delete, and recreate the `dokuwiki-www` volume after pulling this image. The reason is because that `dokuwiki-www` is meant to be a ephemeral volume but it is persisted because it is shared with [quiexotic/dokuwiki-nginx](https://github.com/Hellyna/docker-dokuwiki-nginx).
 
 ## Special notes about nginx
 
