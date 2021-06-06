@@ -1,7 +1,5 @@
 # docker-dokuwiki-fcgi
 
-**Note: Certain changes to the container has been made.**
-
 A alpine based, pure php-fpm docker image for dokuwiki:
 
 + location of conf: `/etc/dokuwiki`
@@ -11,37 +9,14 @@ A alpine based, pure php-fpm docker image for dokuwiki:
 + location of templates: `/var/lib/dokuwiki/templates`
 + location of php-fpm logs: `/var/log/dokuwiki`
 
-This docker image does not include nginx, please bring your own.
-
 ## How to run
 
-Run in installation mode:
-```sh
-docker run -it -name dokuwiki-fcgi --rm \
-  --publish 127.0.0.1:9000 # To be used by nginx \
-  --volume dokuwiki-conf:/etc/dokuwiki \
-  --volume dokuwiki-data:/var/lib/dokuwiki/data \
-  --volume dokuwiki-plugins:/var/lib/dokuwiki/data \
-  --volume dokuwiki-images:/var/lib/dokuwiki/data \
-  --volume dokuwiki-templates:/var/lib/dokuwiki/data \
-  --volume dokuwiki-logs:/var/log/dokuwiki \
-  quiexotic/dokuwiki-fcgi setup
-```
+Please see [docker-compose.yml](https://github.com/Hellyna/docker-dokuwiki-fcgi/blob/master/docker-compose.yml)
 
-After installation is done, run in production:
-```sh
-docker run -it -name dokuwiki-fcgi --rm \
-  --publish 127.0.0.1:9000 # To be used by nginx \
-  --volume dokuwiki-conf:/etc/dokuwiki \
-  --volume dokuwiki-data:/var/lib/dokuwiki/data \
-  --volume dokuwiki-plugins:/var/lib/dokuwiki/data \
-  --volume dokuwiki-images:/var/lib/dokuwiki/data \
-  --volume dokuwiki-templates:/var/lib/dokuwiki/data \
-  --volume dokuwiki-logs:/var/log/dokuwiki \
-  quiexotic/dokuwiki-fcgi production
-```
 
-You can drop in your own config/data files in those volumes, for existing installation. The dokuwiki core files themselves will change with update.
+## Update
+
+To update, you will need to delete, and recreate the `dokuwiki-www` volume after pulling this image. The reason is because that `dokuwiki-www` is meant to be a ephemeral volume but it is persisted because it is shared with [quiexotic/dokuwiki-nginx](https://github.com/quiexotic/docker-dokuwiki-nginx).
 
 ## Special notes about nginx
 
