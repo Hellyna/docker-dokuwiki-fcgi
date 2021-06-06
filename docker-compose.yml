@@ -1,0 +1,49 @@
+version: '2.4'
+
+services:
+  dokuwiki:
+    image: quiexotic/dokuwiki-fcgi
+    restart: unless-stopped
+    mem_swappiness: 60
+    networks:
+      - dokuwiki
+    volumes:
+      - dokuwiki-conf:/etc/dokuwiki:Z
+      - dokuwiki-data:/var/lib/dokuwiki/data:Z
+      - dokuwiki-images:/var/lib/dokuwiki/images:Z
+      - dokuwiki-plugins:/var/lib/dokuwiki/plugins:Z
+      - dokuwiki-templates:/var/lib/dokuwiki/templates:Z
+      - dokuwiki-logs:/var/log/dokuwiki:Z
+      - dokuwiki-www:/srv/www/dokuwiki:Z
+    command:
+      # Change command to "production" once you have set up in https://yourwiki.com/install.php
+      - setup
+  dokuwiki-nginx:
+    image: quiexotic/dokuwiki-nginx
+    restart: unless-stopped
+    mem_swappiness: 60
+    depends_on:
+      - dokuwiki
+    networks:
+      dokuwiki-nginx:
+      dokuwiki:
+    volumes:
+      - dokuwiki-www:/srv/www/dokuwiki:ro,Z
+      - dokuwiki-images:/var/lib/dokuwiki/images:ro,Z
+      - dokuwiki-plugins:/var/lib/dokuwiki/plugins:ro,Z
+      - dokuwiki-templates:/var/lib/dokuwiki/templates:ro,Z
+    ports:
+      - '127.0.0.1:8087:80/tcp'
+
+networks:
+  dokuwiki:
+  dokuwiki-nginx:
+
+volumes:
+  dokuwiki-www:
+  dokuwiki-images:
+  dokuwiki-plugins:
+  dokuwiki-templates:
+  dokuwiki-data:
+  dokuwiki-conf:
+  dokuwiki-logs:
