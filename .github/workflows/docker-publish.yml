@@ -40,7 +40,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
         with:
-          registry: gchr.io
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,13 +51,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
       - name: Extract Docker metadata from ghcr.io
-        id: gchr-io-meta
+        id: ghcr-io-meta
         uses: docker/metadata-action@v3
         with:
-          images: gchr.io/hellyna/dokuwiki-fcgi
+          images: ghcr.io/hellyna/dokuwiki-fcgi
 
       - name: Extract Docker metadata from docker.io
         id: docker-io-meta
@@ -65,10 +63,8 @@ jobs:
         with:
           images: docker.io/quiexotic/dokuwiki-fcgi
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
       - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v2
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
