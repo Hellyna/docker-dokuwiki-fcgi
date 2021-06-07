@@ -54,13 +54,13 @@ jobs:
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata from ghcr.io
-        id: meta
+        id: gchr-io-meta
         uses: docker/metadata-action@v3
         with:
           images: gchr.io/hellyna/dokuwiki-fcgi
 
       - name: Extract Docker metadata from docker.io
-        id: meta
+        id: docker-io-meta
         uses: docker/metadata-action@v3
         with:
           images: docker.io/quiexotic/dokuwiki-fcgi
