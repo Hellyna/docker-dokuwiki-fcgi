@@ -1,5 +1,7 @@
 # docker-dokuwiki-fcgi
 
+[![Docker](https://github.com/Hellyna/docker-dokuwiki-fcgi/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Hellyna/docker-dokuwiki-fcgi/actions/workflows/docker-publish.yml)
+
 A alpine based, pure php-fpm docker image for dokuwiki:
 
 + location of conf: `/etc/dokuwiki`
