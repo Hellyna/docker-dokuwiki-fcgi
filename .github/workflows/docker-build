@@ -54,11 +54,11 @@ docker_repos=(
 )
 
 for repo in "${docker_repos[@]}"; do
-  echo docker build --quiet --pull -t "$repo:$tag" .
+  docker build --quiet --pull -t "$repo:$tag" .
 
   case $1 in
     push)
-      echo docker push --quiet "$repo:$tag"
+      docker push --quiet "$repo:$tag"
       ;;
   esac
 done
