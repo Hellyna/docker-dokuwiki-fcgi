@@ -3,13 +3,13 @@ on:
   schedule:
     - cron: '24 */6 * * *'
   push:
-    branches: [ dev-custom-build-push ]
+    branches: [ master ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
     paths-ignore:
       - 'README.md'
   pull_request:
-    branches: [ dev-custom-build-push ]
+    branches: [ master ]
 
 jobs:
   build:
