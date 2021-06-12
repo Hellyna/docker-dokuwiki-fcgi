@@ -3,13 +3,17 @@ on:
   schedule:
     - cron: '24 */6 * * *'
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - dev-*
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
     paths-ignore:
       - 'README.md'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - dev-*
 
 jobs:
   build:
@@ -41,5 +45,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get branch name
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
       - name: Run build and push
-        run: ./.github/workflows/docker-build push
+        if: github.event_name != 'pull_request'
+        run: ./.github/workflows/docker-build --tag ${{ steps.vars.outputs.short_ref }} push
