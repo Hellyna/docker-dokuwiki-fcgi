@@ -41,30 +41,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract Docker metadata from ghcr.io
-        id: ghcr-io-meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ghcr.io/hellyna/dokuwiki-fcgi
-
-      - name: Extract Docker metadata from docker.io
-        id: docker-io-meta
-        uses: docker/metadata-action@v3
-        with:
-          images: docker.io/quiexotic/dokuwiki-fcgi
-
-      - name: Build and push Docker image to ghcr.io
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.ghcr-io-meta.outputs.tags }}
-          labels: ${{ steps.ghcr-io-meta.outputs.labels }}
-
-      - name: Build and push Docker image to docker.io
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker-io-meta.outputs.tags }}
-          labels: ${{ steps.docker-io-meta.outputs.labels }}
+      - name: Run build and push
+        run: ./.github/workflows/docker-build push
