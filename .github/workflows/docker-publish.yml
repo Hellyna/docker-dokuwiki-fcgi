@@ -14,6 +14,7 @@ on:
     branches:
       - master
       - dev-*
+  workflow_dispatch:
 
 jobs:
   build:
@@ -51,4 +52,4 @@ jobs:
 
       - name: Run build and push
         if: github.event_name != 'pull_request'
-        run: ./.github/workflows/docker-build --tag ${{ steps.vars.outputs.short_ref }} push
+        run: ./.github/workflows/docker-build --pull --tag ${{ steps.vars.outputs.short_ref }} push
