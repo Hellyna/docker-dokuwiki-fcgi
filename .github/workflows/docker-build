@@ -59,7 +59,7 @@ docker_repos=(
 
 for repo in "${docker_repos[@]}"; do
   if [[ $pull -eq 1 ]]; then
-    docker pull --quiet "$repo:$tag"
+    docker pull --quiet "$repo:$tag" || true
   fi
   docker build --quiet -t "$repo:$tag" .
 
