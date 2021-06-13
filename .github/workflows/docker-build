@@ -54,7 +54,7 @@ docker_repos=(
 )
 
 for repo in "${docker_repos[@]}"; do
-  docker build --quiet -t "$repo:$tag" .
+  docker build --pull --quiet -t "$repo:$tag" .
 
   case $1 in
     push)
